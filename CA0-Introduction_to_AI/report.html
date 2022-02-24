@@ -13290,7 +13290,11 @@ color: green">
         df
         ذخیره می‌کنیم.
         <br>
-        این دیتا فریم هم شامل دیتای تحلیل و هم دیتای تکمیل است که در ادامه این دو بخش از هم تشخیص و جدا می‌شوند.
+        این دیتا فریم هم شامل دیتای 
+        train
+        و هم دیتای 
+        test
+        است که در ادامه این دو بخش را از هم تشخیص داده و جدا می‌کنیم.
     </b>
 </div>
 </div>
@@ -14176,9 +14180,17 @@ dtype: int64</pre>
     <b>
         حال با استفاده از تابع 
         $dropna()$
-        سطرهایی که مقدار هدف آن ها ۰ است را جدا می‌کنیم. این دیتافریم جدید دیتای تکمیل و دیتافریم اصلی، دیتای تحلیل ما است.
+        سطرهایی که مقدار هدف آن ها ۰ است را جدا می‌کنیم. این دیتافریم جدید دیتای 
+        test
+        و دیتافریم اصلی، دیتای 
+        train
+        ما است.
                 <br>
-<!--         ولی قبل از این کار ابتدا یک ستون برای اندیس گذاری به دیتافریم اضافه می‌کنیم تا در انتها تشخیص دهیم اندیس هر یک از ردیف های دیتافریم تکمیل که می‌خواهیم ستون هدف آن را کامل کنیم چه بوده‌است. سپس این ستون را در دیتای تحلیل که ستون هدف آن کامل است حذف می‌کنیم. -->
+<!--         ولی قبل از این کار ابتدا یک ستون برای اندیس گذاری به دیتافریم اضافه می‌کنیم تا در انتها تشخیص دهیم اندیس هر یک از ردیف های دیتافریم 
+ test
+که می‌خواهیم ستون هدف آن را کامل کنیم چه بوده‌است. سپس این ستون را در دیتای 
+ train
+که ستون هدف آن کامل است حذف می‌کنیم. -->
     </b>
 </div>
 </div>
@@ -15006,7 +15018,7 @@ dtype: int64</pre>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0.0028128650010330603
+<pre>0.0032982689999698778
 </pre>
 </div>
 </div>
@@ -15062,7 +15074,7 @@ dtype: int64</pre>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0.04220866299874615
+<pre>0.0418751240003985
 </pre>
 </div>
 </div>
@@ -15368,7 +15380,7 @@ dtype: int64</pre>
         yes
         باشد و چه 
         no
-        باشد دارای شکل مشابهی هستند و پیک هر دو در یک ناحیه قرار  دارد بنابراین نمی‌توان نتیجه خاصی بر اثاث مقدار این ویژگی برا فیلد هدف به دست اورد.
+        باشد دارای شکل مشابهی هستند و پیک هر دو در یک ناحیه قرار  دارد بنابراین نمی‌توان نتیجه خاصی بر اساس مقدار این ویژگی برا فیلد هدف به دست اورد.
         مثلا به ازای ویژگی سن اگر سن نرمالایز شده یک فرد 0 باشد هیچ ننیجه ای نمی‌توان گرفت ولی اگر مدت زمان آخرین تلفن نرمالایز شده یک فرد با بانک برابر ۰ باشد می‌توان حدس زد که این فرد با احتمال بالایی سپرده مدت دار ثبت نکرده و اگر این مقدار برابر ۲ باشد می‌توان گفت با توجه به نمودار این فرد به احتمال زیادی سپرده مدت دار ثبت کرده است.
         <br>
         <br>
@@ -15532,10 +15544,10 @@ dtype: int64</pre>
 <span class="n">no_std</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df_no</span><span class="p">][</span><span class="s1">&#39;duration&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 
 <span class="k">def</span> <span class="nf">get_intersection_location</span><span class="p">(</span><span class="n">mean1</span><span class="p">,</span> <span class="n">mean2</span><span class="p">,</span> <span class="n">std1</span><span class="p">,</span> <span class="n">std2</span><span class="p">):</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">std1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">std2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">mean2</span><span class="o">/</span><span class="p">(</span><span class="n">std2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">mean1</span><span class="o">/</span><span class="p">(</span><span class="n">std1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">mean1</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">std1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">mean2</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">std2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">std2</span><span class="o">/</span><span class="n">std1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">roots</span><span class="p">([</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">])</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">std1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">std2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">mean1</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">std1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">mean2</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">std2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">std2</span><span class="o">/</span><span class="n">std1</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">mean2</span><span class="o">/</span><span class="p">(</span><span class="n">std2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">mean1</span><span class="o">/</span><span class="p">(</span><span class="n">std1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">roots</span><span class="p">([</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">theta</span><span class="p">])</span>
 
 <span class="n">intersections</span> <span class="o">=</span> <span class="n">get_intersection_location</span><span class="p">(</span><span class="n">yes_mean</span><span class="p">,</span> <span class="n">no_mean</span><span class="p">,</span> <span class="n">yes_std</span><span class="p">,</span> <span class="n">no_std</span><span class="p">)</span>
 <span class="n">intersections</span>
@@ -15571,7 +15583,9 @@ dtype: int64</pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <div dir = "rtl" style = "font-size: 16px; font-family: Calibri;">
     <b>
-         حال ابتدا در دیتافریم تکمیل که میخواهیم ستون هدف آن را کامل کنیم ستون هدف را به ازای تمام سطرها برابر 
+         حال ابتدا دیتافریم 
+        test
+        را که میخواهیم ستون هدف آن را کامل کنیم، نرمالایز می‌کنیم و سپس ستون هدف را به ازای تمام سطرها برابر 
         yes
         می‌کنیم و سپس سطر هایی که مدت زمان تلفن آن‌ها میان دو تقاطع است را به 
         no
@@ -15593,11 +15607,161 @@ dtype: int64</pre>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">nan_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">nan_df</span> <span class="o">-</span> <span class="n">nan_df</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">/</span><span class="n">nan_df</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 <span class="n">nan_df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+
 <span class="n">nan_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">nan_df</span><span class="p">[</span><span class="s1">&#39;duration&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">intersections</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">|</span> <span class="p">(</span><span class="n">nan_df</span><span class="p">[</span><span class="s1">&#39;duration&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">intersections</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;no&#39;</span>
 <span class="n">nan_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;result.csv&#39;</span><span class="p">)</span>
+<span class="n">nan_df</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[25]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>balance</th>
+      <th>duration</th>
+      <th>campaign</th>
+      <th>pdays</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>34</th>
+      <td>0.760234</td>
+      <td>-0.018968</td>
+      <td>0.410199</td>
+      <td>0.105558</td>
+      <td>-0.436283</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>-0.875188</td>
+      <td>0.984671</td>
+      <td>2.067139</td>
+      <td>-0.621620</td>
+      <td>2.674752</td>
+      <td>no</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>0.005637</td>
+      <td>0.351263</td>
+      <td>0.079617</td>
+      <td>0.105558</td>
+      <td>-0.436283</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>0.964661</td>
+      <td>-0.469491</td>
+      <td>-0.476728</td>
+      <td>-0.621620</td>
+      <td>1.114699</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>0.005637</td>
+      <td>0.202576</td>
+      <td>-0.198556</td>
+      <td>-0.258031</td>
+      <td>-0.436283</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>4470</th>
+      <td>-1.079616</td>
+      <td>-0.044617</td>
+      <td>-0.182430</td>
+      <td>-0.621620</td>
+      <td>-0.436283</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <th>4471</th>
+      <td>1.782372</td>
+      <td>0.835612</td>
+      <td>-0.146146</td>
+      <td>0.469147</td>
+      <td>-0.436283</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <th>4473</th>
+      <td>-0.875188</td>
+      <td>-0.299987</td>
+      <td>-0.464634</td>
+      <td>-0.621620</td>
+      <td>2.039847</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <th>4477</th>
+      <td>-0.977402</td>
+      <td>-0.263559</td>
+      <td>-0.609767</td>
+      <td>-0.258031</td>
+      <td>-0.436283</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <th>4482</th>
+      <td>0.453592</td>
+      <td>-0.304820</td>
+      <td>0.050284</td>
+      <td>-0.621620</td>
+      <td>-0.436283</td>
+      <td>yes</td>
+    </tr>
+  </tbody>
+</table>
+<p>434 rows × 6 columns</p>
+</div>
+</div>
+
+</div>
+
 </div>
 </div>
 
