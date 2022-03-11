@@ -13537,7 +13537,10 @@ div#notebook {
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span>
     
-    <span class="k">def</span> <span class="nf">get_h</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1">#returns value of heuristic function</span>
+    <span class="k">def</span> <span class="nf">get_T</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1">#return T(x)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remaining_packets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">min_packet_dest_to_start</span>
+    
+    <span class="k">def</span> <span class="nf">get_h</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1">#returns value of heuristic function value</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remaining_packets</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">get_distance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="p">,</span> <span class="n">agent_destination</span><span class="p">)</span>
         <span class="n">min_dist</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
@@ -13549,7 +13552,7 @@ div#notebook {
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">sum_dist</span> <span class="o">+=</span> <span class="n">get_distance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">agent</span><span class="p">,</span> <span class="n">packets</span><span class="p">[</span><span class="n">packet</span><span class="p">]</span><span class="o">.</span><span class="n">destination</span><span class="p">)</span>
                 <span class="n">min_dist</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">return</span> <span class="n">min_dist</span> <span class="o">+</span> <span class="n">sum_dist</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">packet_dest_to_start</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remaining_packets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">min_dist_to_dest</span>
+        <span class="k">return</span> <span class="n">min_dist</span> <span class="o">+</span> <span class="n">sum_dist</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_T</span><span class="p">()</span> <span class="o">+</span> <span class="n">min_dist_to_dest</span>
 </pre></div>
 
     </div>
@@ -13623,6 +13626,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;sample_testcases/test_00.txt&quot;</span><span class="p">)</span>
 <span class="n">packet_dest_to_start</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1">#list of distance of destination and start point of pair of different packets</span>
+<span class="n">min_packet_dest_to_start</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span> <span class="c1">#minimum distance of destination and start point of pair of different packets</span>
 <span class="n">min_dist_to_dest</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span> <span class="c1">#minimum distance between agent destination and packets&#39; destinations</span>
 
 <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">file</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
@@ -13647,6 +13651,7 @@ div#notebook {
     <span class="n">min_dist_to_dest</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_dist_to_dest</span><span class="p">,</span> <span class="n">get_distance</span><span class="p">(</span><span class="n">agent_destination</span><span class="p">,</span> <span class="n">packet</span><span class="o">.</span><span class="n">destination</span><span class="p">))</span>
 
 <span class="n">packet_dest_to_start</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="n">min_packet_dest_to_start</span> <span class="o">=</span> <span class="n">packet_dest_to_start</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     
 <span class="n">initial_state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_packets</span><span class="p">)])</span>
 </pre></div>
@@ -13792,7 +13797,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Executation Time: 0.45213866233825684 
+<pre>Executation Time: 0.36055421829223633 
 Seen States: 6947
 path:  RRRRRRRRRRRRRRRRRRRRRRRRRRRRRDRUDRUDRUDRUDRRRRRR
 steps:  48
@@ -13962,7 +13967,7 @@ steps:  48
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Executation Time: 6.764590501785278 
+<pre>Executation Time: 5.684725046157837 
 Seen States: 132423
 path:  RRRRRRRRRRRRRRRRRRRRRRRRRRRRRDRUDRUDRUDRUDRRRRRR
 steps:  48
@@ -14131,12 +14136,11 @@ steps:  48
         $T(x)$
         :
         یک لیست می‌سازیم که به ازای هر دو محموله متفاوت، شامل فاصله ی منهتنی مقصد اولی از مبدا دومی و مبدا اولی از مقصد دومی است.
-        سپس این لیست را از کوچک به بزرگ مرتب می‌کنیم.
         <br>
         $T(x)$
-        برابر جمع 
+        برابر 
         $x-1$
-        عدد اول این لیست است.
+        ضربدر کوچک ترین عضو این لیست است.
         <br>
         <br>
         حالت دوم: تمام محموله ها به مقصدشان رسیده باشند:
@@ -14164,7 +14168,7 @@ steps:  48
         (۲)فاصله ی منهتنی مامور از نزدیک ترین  محموله ای که به مقصدش نرسیده است 
         <br>(۳)به اضافه 
         $x-1$
-        تا فاصله ی کوچک تر میان مبدا و مقصد محموله های مختلف 
+        برابر کوچکترین فاصله ی میان مبدا و مقصد محموله های مختلف 
         <br>
         (۴)به اضافه ی فاصله ی منهتنی نزدیک ترین مقصد محموله به مقصد مامور تا مقصد مامور، 
         <br>
@@ -14188,6 +14192,40 @@ steps:  48
         n
         حرکت برویم داریم:
         $$Cost(A to B) = n >= h(A) - h(B)$$
+        <br>
+        اثبات اینکه در هر گام حداکثر یک واحد از تابع کاهش می‌یابد:
+        در اینجا دو حالت داریم:
+        <br>
+        ۱: اگر هیچ محموله ای باقی نمانده باشد مامور در هرگام حداکثر می‌تواند یک واحد به مقصد خود نزدیک شود، پس با توجه به تعریف تابع، در هر مرحله حداکثر یک واحد از مقدار تابع کم می‌شود.
+        <br>
+        ۲: حالتی که در آن حداقل یک محموله مانده باشد:
+        این حالت را نیز به دو حالت تقسیم می‌کنیم:
+        <br>
+        ۲-۱: اگر قبل از انجام یک گام مامور در حال جا به جایی هیچ محموله ای نباشد بعد از انجام این گام تنها مقدار از تابع که می‌تواند تغییر کند فاصله ی مامور از نزدیک ترین محموله به خود است که این مقدار نیز حداکثر یک واحد تغییر می‌کند.
+        <br>
+        ۲-۲: حالتی که مامور در حال انتقال یک محموله باشد را نیز دو حالت می‌کنیم:
+        <br>
+        ۲-۲-۱: اگر مامور در حال انتقال یک محموله باشد و بعد از انجام یک حرکت به مقصد محموله نرسد، تنها مقدار فاصله ی محموله ها از مقصدشان در تابع و حداکثر به اندازه ی یک واحد کاهش پیدا می‌کند.
+        <br>
+        ۲-۲-۲: اگر محموله بعد از یک گام به مقصد خود برسد در اینجا نیز دو حالت داریم:
+        <br>
+        ۲-۲-۲-۱ : اگر این محموله آخرین محموله باشد قبل از انجام این گام مقدار تابع برابر ۱ + فاصله ی مقصد مامور از نزدیک ترین مقصد محموله ها به مقصد مامور  است و بعد از این گام مقدار تابع برابر فاصله ی مامور تا مقصد خود است که حداقل برابر فاصله ی مقصد مامور از نزدیک ترین مقصد محموله ها به مقصد مامور  است. پس در اینجا نیز مقدار تابع حداکثر یک واحد کاهش می‌یابد.
+        <br>
+        ۲-۲-۲-۲: حال اگر این محموله آخرین محموله نباشد سه مقدار از تابع تغییر می‌کند. اولی مقدار 
+        $T(x)$
+        است که به 
+        $T(x-1)$
+        کاهش میابد
+         و دومی فاصله‌ی مامور از نزدیک ترین محموله به خود است که حداقل به اندازه‌ی
+        $T(x) - T(x - 1)$
+        افزایش می‌یابد(توجه کنید این مقدار برابر با حداقل فاصله میان مبدا و مقصد دو محموله ی مختلف است و 
+        $x$
+        برابر تعداد محموله های باقی مانده است.)
+        <br>
+        سومین مقداری که تغییر می‌کند فاصله ی محموله های باقی مانده از مقصدشان است که یک واحد کاهش می‌یابد.
+        <br>
+        پس در این حالت هم مقدار تابع حداکثر یک واحد کاهش می‌یابد و حکم اثبات می‌شود.
+        <br>
     </div>
 </html>
 </div>
@@ -14264,7 +14302,7 @@ steps:  48
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Executation Time: 0.006689786911010742 
+<pre>Executation Time: 0.005419015884399414 
 Seen States: 53
 path:  RRRRRRRRRRRRRRRRRRRRRRRRRRRRRDRUDRUDRUDRUDRRRRRR
 steps:  48
@@ -14297,9 +14335,9 @@ steps:  48
     <tr>
         <td style = "text-align: left">2</td>
         <td style = "text-align: left">52</td>
-        <td style = "text-align: left">509</td>
-        <td style = "text-align: left"> 0.041</td>
-        <td style = "text-align: left"> RRDDRRDDDDDDLLLRUUUUURRRRDLDLDDLDRUUURURRRDDDLDLLRRR</td>
+        <td style = "text-align: left">532</td>
+        <td style = "text-align: left"> 0.042</td>
+        <td style = "text-align: left"> RRDDRRDDDDDDLLLRRRUUUURRUDLDLDLDDRRRRURUUUDDDDLLLRRR</td>
     </tr>
     <tr>
         <td style = "text-align: left">3</td>
@@ -14311,9 +14349,9 @@ steps:  48
         <tr>
         <td style = "text-align: left">4</td>
         <td style = "text-align: left">66</td>
-        <td style = "text-align: left">740</td>
-        <td style = "text-align: left"> 0.058</td>
-            <td style = "text-align: left"> RRDDDDDDLLDDRDRUUUUURRRRRURRUUULLDDDDDLLDLDDLDLLRRRRUUUUURRRRDDDDD</td>
+        <td style = "text-align: left">990</td>
+        <td style = "text-align: left"> 0.073</td>
+            <td style = "text-align: left"> RRDDDDDDLLDDDRRRRUUUURURUUURURRLLDDDDLLDDLDDLDLLRRRRUUUUURRRRDDDDD</td>
     </tr>
 </table>
 </div>
@@ -14406,7 +14444,7 @@ steps:  48
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Executation Time: 0.006231069564819336 
+<pre>Executation Time: 0.004057407379150391 
 Seen States: 49
 path:  RRRRRRRRRRRRRRRRRRRRRRRRRRRRRDRUDRUDRUDRUDRRRRRR
 steps:  48
@@ -14439,8 +14477,8 @@ steps:  48
     <tr>
         <td style = "text-align: left">2</td>
         <td style = "text-align: left">52</td>
-        <td style = "text-align: left">89</td>
-        <td style = "text-align: left"> 0.0067</td>
+        <td style = "text-align: left">93</td>
+        <td style = "text-align: left"> 0.0061</td>
         <td style = "text-align: left"> RRRRDDDDDDDDLLLRRRUUURURUDLDLDDDLRRRRRUUUUDDDDLLLRRR</td>
     </tr>
     <tr>
@@ -14453,8 +14491,8 @@ steps:  48
         <tr>
         <td style = "text-align: left">4</td>
         <td style = "text-align: left">66</td>
-        <td style = "text-align: left">740</td>
-        <td style = "text-align: left"> 0.0092</td>
+        <td style = "text-align: left">158</td>
+        <td style = "text-align: left"> 0.0085</td>
             <td style = "text-align: left"> RRDDDDDDDDLLRDRRRRRRRRUUUUUUUUULLDDDDDLLDDDDLLLLRRRRUUUUURRRRDDDDD</td>
     </tr>
 </table>
@@ -14503,7 +14541,7 @@ steps:  48
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Executation Time: 0.0059850215911865234 
+<pre>Executation Time: 0.003958463668823242 
 Seen States: 49
 path:  RRRRRRRRRRRRRRRRRRRRRRRRRRRRRDRUDRUDRUDRUDRRRRRR
 steps:  48
@@ -14536,8 +14574,8 @@ steps:  48
     <tr>
         <td style = "text-align: left">2</td>
         <td style = "text-align: left">54</td>
-        <td style = "text-align: left">75</td>
-        <td style = "text-align: left"> 0.0057</td>
+        <td style = "text-align: left">79</td>
+        <td style = "text-align: left"> 0.0120</td>
         <td style = "text-align: left"> RRRRDDDDDDDDLLLRRRRRRRUUUUDDDDLLLULUURURUDLDLDDDLRRRRR</td>
     </tr>
     <tr>
@@ -14550,8 +14588,8 @@ steps:  48
         <tr>
         <td style = "text-align: left">4</td>
         <td style = "text-align: left">66</td>
-        <td style = "text-align: left">117</td>
-        <td style = "text-align: left"> 0.0132</td>
+        <td style = "text-align: left">119</td>
+        <td style = "text-align: left"> 0.0067</td>
             <td style = "text-align: left"> RRDDDDDDDDLLRDRRRRRRRRUUUUUUUUULLDDDDDLLDDDDLLLLRRRRUUUUURRRRDDDDD</td>
     </tr>
 </table>
@@ -14648,22 +14686,22 @@ steps:  48
     <tr>
         <td style = "text-align: left">A*</td>
         <td style = "text-align: left">52</td>
-        <td style = "text-align: left">509</td>
-        <td style = "text-align: left"> 0.041</td>
-        <td style = "text-align: left"> RRDDRRDDDDDDLLLRUUUUURRRRDLDLDDLDRUUURURRRDDDLDLLRRR</td>
+        <td style = "text-align: left">532</td>
+        <td style = "text-align: left"> 0.042</td>
+        <td style = "text-align: left"> RRDDRRDDDDDDLLLRRRUUUURRUDLDLDLDDRRRRURUUUDDDDLLLRRR</td>
     </tr>
         <tr>
         <td style = "text-align: left">A* $\alpha = 2$</td>
         <td style = "text-align: left">52</td>
-        <td style = "text-align: left">89</td>
-        <td style = "text-align: left"> 0.0067</td>
+        <td style = "text-align: left">93</td>
+        <td style = "text-align: left"> 0.0061</td>
             <td style = "text-align: left"> RRRRDDDDDDDDLLLRRRUUURURUDLDLDDDLRRRRRUUUUDDDDLLLRRR</td>
     </tr>
             <tr>
         <td style = "text-align: left">A* $\alpha = 10$</td>
         <td style = "text-align: left">54</td>
-        <td style = "text-align: left">75</td>
-        <td style = "text-align: left"> 0.0057</td>
+        <td style = "text-align: left">79</td>
+        <td style = "text-align: left"> 0.0120</td>
             <td style = "text-align: left"> RRRRDDDDDDDDLLLRRRRRRRUUUUDDDDLLLULUURURUDLDLDDDLRRRRR</td>
     </tr>
 </table>
@@ -14760,22 +14798,22 @@ steps:  48
     <tr>
         <td style = "text-align: left">A*</td>
         <td style = "text-align: left">66</td>
-        <td style = "text-align: left">740</td>
-        <td style = "text-align: left"> 0.058</td>
-        <td style = "text-align: left"> RRDDDDDDLLDDRDRUUUUURRRRRURRUUULLDDDDDLLDLDDLDLLRRRRUUUUURRRRDDDDD</td>
+        <td style = "text-align: left">990</td>
+        <td style = "text-align: left"> 0.073</td>
+        <td style = "text-align: left"> RRDDDDDDLLDDDRRRRUUUURURUUURURRLLDDDDLLDDLDDLDLLRRRRUUUUURRRRDDDDD</td>
     </tr>
         <tr>
         <td style = "text-align: left">A* $\alpha = 2$</td>
         <td style = "text-align: left">66</td>
-        <td style = "text-align: left">740</td>
-        <td style = "text-align: left"> 0.0092</td>
+        <td style = "text-align: left">158</td>
+        <td style = "text-align: left"> 0.0085</td>
             <td style = "text-align: left"> RRDDDDDDDDLLRDRRRRRRRRUUUUUUUUULLDDDDDLLDDDDLLLLRRRRUUUUURRRRDDDDD</td>
     </tr>
             <tr>
         <td style = "text-align: left">A* $\alpha = 10$</td>
         <td style = "text-align: left">66</td>
-        <td style = "text-align: left">117</td>
-        <td style = "text-align: left"> 0.013</td>
+        <td style = "text-align: left">119</td>
+        <td style = "text-align: left"> 0.0067</td>
             <td style = "text-align: left"> RRDDDDDDDDLLRDRRRRRRRRUUUUUUUUULLDDDDDLLDDDDLLLLRRRRUUUUURRRRDDDDD</td>
     </tr>
 </table>
